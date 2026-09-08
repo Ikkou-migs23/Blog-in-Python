@@ -16,3 +16,6 @@ CREATE TABLE post (
 
     FOREIGN KEY (author_id) REFERENCES user (id)
 );
+
+INSERT INTO user (username, password)
+VALUES ('admin', 'admin');

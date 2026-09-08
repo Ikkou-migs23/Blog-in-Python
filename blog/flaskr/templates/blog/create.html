@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Nova publicacao</title>
+</head>
+<body>
+	<header>
+		<h1>Nova publicacao</h1>
+		<a href="{{ url_for('blog.index') }}">Voltar para publicacoes</a>
+	</header>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+				{% for message in messages %}
+					<li role="alert">{{ message }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	<form method="post">
+		<p>
+			<label for="title">Titulo</label>
+			<input id="title" name="title" value="{{ request.form.get('title', '') }}" required>
+		</p>
+		<p>
+			<label for="body">Conteudo</label>
+			<textarea id="body" name="body" rows="8" required>{{ request.form.get('body', '') }}</textarea>
+		</p>
+		<button type="submit">Publicar</button>
+	</form>
+</body>
+</html>

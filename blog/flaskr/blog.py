@@ -17,23 +17,25 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
-        title = request.form['title']
-        body = request.form['body']
+        title = request.form.get('title', '').strip()
+        body = request.form.get('body', '').strip()
         error = None
-    if not title:
-        error = 'O título do post é obrigatório.'
-    if not body:
-        error = 'O conteúdo do post é obrigatório.'
-    if error is not None:
-        flash(error)
-    else:
-        db = get_db()
-        # 3. Insere a nova postagem vinculada ao ID do autor (User ID 1 para testes)
-        db.execute(
-            'INSERT INTO post (title, body, author_id)'
-            ' VALUES (?, ?, ?)',
-            (title, body, 1)
+
+        if not title:
+            error = 'O título do post é obrigatório.'
+        elif not body:
+            error = 'O conteúdo do post é obrigatório.'
+
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, 1)
             )
-        db.commit()
-    return redirect(url_for('blog.index'))
+            db.commit()
+            return redirect(url_for('blog.index'))
+
     return render_template('blog/create.html')

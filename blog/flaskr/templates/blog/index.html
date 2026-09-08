@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Publicacoes</title>
+</head>
+<body>
+	<header>
+		<h1>Publicacoes</h1>
+		<a href="{{ url_for('blog.create') }}">Criar publicacao</a>
+	</header>
+
+	{% with messages = get_flashed_messages() %}
+		{% if messages %}
+			<ul>
+				{% for message in messages %}
+					<li role="alert">{{ message }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	{% endwith %}
+
+	{% for post in posts %}
+		<article>
+			<h2>{{ post['title'] }}</h2>
+			<p>{{ post['body'] }}</p>
+			<small>Por {{ post['username'] }} em {{ post['created'] }}</small>
+		</article>
+	{% else %}
+		<p>Nenhuma publicacao cadastrada.</p>
+	{% endfor %}
+</body>
+</html>
